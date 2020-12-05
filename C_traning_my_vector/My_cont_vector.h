@@ -11,9 +11,9 @@ class My_cont_vector
 	int max_size;
 	void new_el_more_size();
 public:
-	My_cont_vector() noexcept;
-	My_cont_vector(int n_size) noexcept;
-	My_cont_vector(My_cont_vector<T>& arr) noexcept;
+	My_cont_vector();
+	My_cont_vector(int n_size);
+	My_cont_vector(My_cont_vector<T>& arr);
 
 	void del_el(int index);
 	void puch_back(const T& el);
@@ -26,7 +26,7 @@ public:
 
 	T& operator[](int ind)
 	{
-		if (ind > max_size)
+		if (ind >= size)
 			throw exception("index more than max");
 		if (ind < 0)
 			throw exception("index less than 0");
@@ -41,7 +41,7 @@ public:
 
 
 template <class T>
-My_cont_vector<T>::My_cont_vector() noexcept
+My_cont_vector<T>::My_cont_vector()
 {
 	max_size = 10;
 	data = new T[max_size];
@@ -49,7 +49,7 @@ My_cont_vector<T>::My_cont_vector() noexcept
 }
 
 template <class T>
-My_cont_vector<T>::My_cont_vector(int n_size) noexcept
+My_cont_vector<T>::My_cont_vector(int n_size)
 {
 	this->max_size = 2 * n_size;
 	this->size = n_size;
@@ -61,7 +61,7 @@ My_cont_vector<T>::My_cont_vector(int n_size) noexcept
 }
 
 template <class T>
-My_cont_vector<T>::My_cont_vector(My_cont_vector<T>& arr) noexcept
+My_cont_vector<T>::My_cont_vector(My_cont_vector<T>& arr)
 {
 	max_size = arr.max_size;
 	size = arr.size;
@@ -109,6 +109,8 @@ void My_cont_vector<T>::clear()
 template <class T>
 void My_cont_vector<T>::new_size(int n_size)
 {
+	if (n_size < 0)
+		throw exception("size less than 0");
 	if (n_size > max_size)
 	{
 		int old_size = size;
@@ -131,6 +133,10 @@ void My_cont_vector<T>::new_size(int n_size)
 template <class T>
 void My_cont_vector<T>::del_el(int index)
 {
+	if (index > max_size)
+		throw exception("index more than max");
+	if (index < 0)
+		throw exception("index less than 0");
 	T* t_data;
 	t_data = new T[max_size];
 	for (int i = 0, k = 0; i < size; i++, k++)
